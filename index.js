@@ -55,12 +55,12 @@ word.split('').forEach(letter => {
     }
 })
 
-console.log('string translation is ' + numbers)
+console.log('String translation is ' + numbers)
 let i = null
 let result = ''
 let numLength = numbers.length
 
-console.log('string length is ' + numLength)
+console.log('String length is ' + numLength)
 for (i = 0; i < numLength; i++) {
     let a = numbers[i]
     let b = numbers[i + 1]
@@ -82,13 +82,12 @@ for (i = 0; i < numLength; i++) {
 }
 
 let resultLength = result.length
-console.log('result length is ' + resultLength)
-
 
 process.stdout.write("\n")
 process.stdout.write("Your result is " + result)
 process.stdout.write("\n")
-
+process.stdout.write('Result length is ' + resultLength)
+process.stdout.write("\n")
 
 let j = null
 let currentLine = null
@@ -117,20 +116,19 @@ console.table(allLines)
 let imageName = 'pattern_' + resultLength + 'x' + resultLength + '.' + imageType
 
 let image = new Jimp(resultLength, resultLength, function (err, image) {
-  if (err) throw err;
+    if (err) throw err
 
-  allLines.forEach((row, y) => {
-    row.forEach((binary, x) => {
-        if (binary) {
-            image.setPixelColor(colorBlack, x, y);
-        } else {
-            image.setPixelColor(colorWhite, x, y);
+    allLines.forEach((row, y) => {
+        row.forEach((binary, x) => {
+            if (binary) {
+                image.setPixelColor(colorBlack, x, y)
+            } else {
+                image.setPixelColor(colorWhite, x, y)
+            }
+        })
+    })
 
-        }
-    });
-  });
-
-  image.write(imageName, (err) => {
-    if (err) throw err;
-  })
+    image.write(imageName, (err) => {
+        if (err) throw err;
+    })
 })
