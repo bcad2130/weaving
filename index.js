@@ -35,6 +35,7 @@ const map = {
 
 const colorWhite = 0xFFFFFFFF
 const colorBlack = 0x00000000
+const imageType = 'jpg'
 
 function isEven(value) {
     if (value%2 == 0)
@@ -113,6 +114,8 @@ for (i = resultLength - 1; i >= 0; i--) {
 
 console.table(allLines)
 
+let imageName = 'pattern_' + resultLength + 'x' + resultLength + '.' + imageType
+
 let image = new Jimp(resultLength, resultLength, function (err, image) {
   if (err) throw err;
 
@@ -127,7 +130,7 @@ let image = new Jimp(resultLength, resultLength, function (err, image) {
     });
   });
 
-  image.write('test.jpg', (err) => {
+  image.write(imageName, (err) => {
     if (err) throw err;
   })
 })
