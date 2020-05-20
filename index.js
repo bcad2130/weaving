@@ -33,6 +33,9 @@ const map = {
     Z: 2,
 }
 
+const colorWhite = 0xFFFFFFFF
+const colorBlack = 0x00000000
+
 function isEven(value) {
     if (value%2 == 0)
         return true;
@@ -78,6 +81,8 @@ for (i = 0; i < numLength; i++) {
 }
 
 let resultLength = result.length
+console.log('result length is ' + resultLength)
+
 
 process.stdout.write("\n")
 process.stdout.write("Your result is " + result)
@@ -114,15 +119,15 @@ let image = new Jimp(resultLength, resultLength, function (err, image) {
   allLines.forEach((row, y) => {
     row.forEach((binary, x) => {
         if (binary) {
-            image.setPixelColor(0xFF0000FF, x, y);
+            image.setPixelColor(colorBlack, x, y);
         } else {
-            image.setPixelColor(0xFFFFFFFF, x, y);
+            image.setPixelColor(colorWhite, x, y);
 
         }
     });
   });
 
-  image.write('test.png', (err) => {
+  image.write('test.jpg', (err) => {
     if (err) throw err;
   })
 })
