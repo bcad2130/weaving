@@ -1,8 +1,15 @@
 'use strict'
 
+// dependencies
+
 const Jimp = require('jimp');
 
+// constants
+
 const [,,rawInput, numberOfIterations] = process.argv
+const colorBlack = Jimp.rgbaToInt(  0,   0,   0, 255)
+const colorWhite = Jimp.rgbaToInt(255, 255, 255, 255)
+const imageType = 'png'
 
 const map = {
     A: 1,
@@ -41,11 +48,10 @@ const tieDown = [
 ]
 
 
-const colorBlack = Jimp.rgbaToInt(  0,   0,   0, 255)
-const colorWhite = Jimp.rgbaToInt(255, 255, 255, 255)
-const imageType = 'png'
+//functions
 
 function isEven(value) {
+
     if (value%2 == 0)
         return true;
     else
@@ -53,6 +59,7 @@ function isEven(value) {
 }
 
 function processString(rawInput) {
+
     let word = rawInput.toUpperCase()
     let numbers = ''
 
@@ -64,11 +71,9 @@ function processString(rawInput) {
         }
     })
 
-    // console.log('String translation is ' + numbers)
     let result = ''
     let numLength = numbers.length
 
-    // console.log('String length is ' + numLength)
     for (i = 0; i < numLength; i++) {
         let a = numbers[i]
         let b = numbers[i + 1]
@@ -93,31 +98,43 @@ function processString(rawInput) {
 }
 
 function stitchPattern(result, currentLine, allLines, treadling) {
-    for (i = result.length - 1; i >= 0; i--) {
-        currentLine = []
-        let val = result[i]
-        let valPlus = result[i] + 1
-        if (valPlus == 5) {
-            valPlus = 1
-        }
 
-        for (j = result.length - 1; j >= 0; j--) {
-            if (result[j] == val || result[j] == valPlus) {
-                currentLine.push(1)
-            } else {
-                currentLine.push(0)
+    for (i = 0; i < result.length; i++) {
+        currentLine = []
+        
+        let dotPos = null
+        let vals = []
+
+        for (j = 0; j < 4; j++) {
+
+            if (treadling[i][j] == 1) {
+                dotPos = j
             }
         }
+
+        for (j = 0; j < 4; j++) {
+            if (tieDown[dotPos][j] != 0)
+                vals.push(tieDown[j][dotPos])
+        }
+
+        for (j = 0; j < result.length; j++) {
+            if (result[j] == vals[0] || result[j] == vals[1]) {
+                currentLine[j] = 1
+            } else {
+                currentLine[j] = 0
+            }
+        }
+
         allLines.push(currentLine)
     }
 }
 
 function createTreadling(result) {
-    console.log(result[3])
+
     let treadling = []
     for (i = result.length - 1; i >= 0; i--) {
         let array  = null
-        console.log(result[i])
+
         switch(result[i]) {
             case '1':
                 array = [1,0,0,0]
@@ -140,7 +157,7 @@ function createTreadling(result) {
     return treadling
 }
 
-function createImage(allLines, iteration = 0) {
+function createImage(result, allLines, iteration = 0) {
 
     let imageName = 'pattern_' + result.length + 'x' + result.length + '_' + iteration + '.' + imageType
 
@@ -163,21 +180,13 @@ function createImage(allLines, iteration = 0) {
     })
 }
 
+
+
+// main
+
 let h = null
 let i = null
 let j = null
-// let currentLine = null
-// let allLines = []
-
-// let result = processString(rawInput)
-
-// let resultLength = result.length
-
-// process.stdout.write("\n")
-// process.stdout.write("Your result is " + result)
-// process.stdout.write("\n")
-// process.stdout.write('Result length is ' + resultLength)
-// process.stdout.write("\n")
 
 if (numberOfIterations) {
     for (h = numberOfIterations; h > 0; h--) {
@@ -187,14 +196,10 @@ if (numberOfIterations) {
         let result = processString(rawInput)
 
         let treadling = createTreadling(result)
-        // console.table(treadling)
 
         stitchPattern(result, currentLine, allLines, treadling)
 
-        // console.table(allLines)
-
-
-        // createImage(allLines, h)
+        createImage(result, allLines, h)
     }
 } else {
     console.log('Enter number of variations')
