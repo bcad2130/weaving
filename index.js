@@ -6,7 +6,7 @@ const Jimp = require('jimp');
 
 // constants
 
-const [,,rawInput, numberOfIterations] = process.argv
+const [,,rawInput, numberOfIterations, cornerPattern] = process.argv
 const colorBlack = Jimp.rgbaToInt(  0,   0,   0, 255)
 const colorWhite = Jimp.rgbaToInt(255, 255, 255, 255)
 const imageType = 'png'
@@ -135,22 +135,44 @@ function createTreadling(result) {
     for (i = result.length - 1; i >= 0; i--) {
         let array  = null
 
-        switch(result[i]) {
-            case '1':
-                array = [1,0,0,0]
-                break
-            case '2':
-                array = [0,1,0,0]
-                break
-            case '3':
-                array = [0,0,1,0]
-                break
-            case '4':
-                array = [0,0,0,1]
-                break
-            default:
-                console.log('error')
-                break
+        if (cornerPattern === 'star') {
+            switch(result[i]) {
+                case '1':
+                    array = [1,0,0,0]
+                    break
+                case '2':
+                    array = [0,1,0,0]
+                    break
+                case '3':
+                    array = [0,0,1,0]
+                    break
+                case '4':
+                    array = [0,0,0,1]
+                    break
+                default:
+                    console.log('error')
+                    break
+            }
+        } else if (cornerPattern === 'rose') {
+            switch(result[i]) {
+                case '1':
+                    array = [0,1,0,0]
+                    break
+                case '2':
+                    array = [1,0,0,0]
+                    break
+                case '3':
+                    array = [0,0,0,1]
+                    break
+                case '4':
+                    array = [0,0,1,0]
+                    break
+                default:
+                    console.log('error')
+                    break
+            }
+        } else {
+            console.log('Error: Choose star or rose pattern.')
         }
         treadling.push(array)
     }

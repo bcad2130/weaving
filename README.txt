@@ -19,7 +19,7 @@ In the repo, run $ npm install to grab the necessary dependencies (currently jus
 
 To run the program:
 
-$ node index.js <text> <iterations>
+$ node index.js <text> <iterations> <cornerPattern>
 
 Node is the dev framework.
 
@@ -29,6 +29,8 @@ The program lives in the index.js.
 
 <iterations> is the number of images that will be created. If you are creating a pattern with a lot of incidentals, then its nice to create multiples, so you can find the best ones.
 
-This will result in images being created with the name "pattern" and the height and width of the patttern appended (as well as the iteration number). Note that running the program again will overwrite any existing images with the same width/height. It is strongly suggested to move any images you wish to keep to a different directory immediately after you create them.
+<cornerPattern> is the pattern that will be used to convert the threading into the treadling. Star is a direct 1=>1, 2=>2, 3=>3, 4=>4. Rose is 1=>2, 2=>1, 3=>4, 4=>3. You will need to use lower case: 'star' or 'rose'.
+
+This will result in images being created with the name "pattern" and the height and width of the pattern appended (as well as the iteration number). Note that running the program again will overwrite any existing images with the same width/height. It is strongly suggested to move any images you wish to keep to a different directory immediately after you create them.
 
 Have fun!
